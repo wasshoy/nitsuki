@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int           @id @default(autoincrement())
+  title     String        @db.VarChar(50)
+  content   String?       @db.Text
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  published Boolean
+  tags      TagsOnPosts[]
+}
+
+model Tag {
+  id        Int           @id @default(autoincrement())
+  name      String        @db.VarChar(30) @unique
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  posts     TagsOnPosts[]
+}
+
+// associative table for posts and tags
+model TagsOnPosts {
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     Int
+  tag        Tag      @relation(fields: [tagId], references: [id])
+  tagId      Int
+  assignedAt DateTime @default(now())
+
+  @@id([postId, tagId])
+}
