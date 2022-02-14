@@ -1,9 +1,10 @@
-module.exports = {
+export default {
   'env': {
     'browser': true,
     'es2021': true,
   },
   'extends': [
+    'eslint:recommended',
     'plugin:react/recommended',
     'google',
     'prettier',  // その他の設定を上書きするために最後に配置
