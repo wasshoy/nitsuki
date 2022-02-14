@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import React from "react";
-import prisma, { Post } from "../utils/prisma";
+import prisma from "../utils/prisma";
+import { Post } from "@prisma/client";
 
 export type PostInfomation = {
   posts: Pick<Post, "id" | "title" | "content" | "createdAt">[];
