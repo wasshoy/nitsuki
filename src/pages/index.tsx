@@ -1,12 +1,12 @@
 import { GetServerSideProps } from "next";
 import React from "react";
-import prisma, { Post } from "../infrastructures/utils/prisma";
+import prisma, { Post } from "../utils/prisma";
 
-type PostProps = {
+export type PostInfomation = {
   posts: Pick<Post, "id" | "title" | "content" | "createdAt">[];
 };
 
-export const getServerSideProps: GetServerSideProps<PostProps> = async () => {
+export const getServerSideProps: GetServerSideProps<PostInfomation> = async () => {
   const allPosts = await prisma.post.findMany({
     select: {
       id: true,
@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async () => {
   };
 };
 
-export default function index(props: PostProps) {
+export default function index(props: PostInfomation) {
   return (
     <>
       <div>post count: {props.posts.length}</div>

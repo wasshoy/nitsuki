@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
-import Favicon from "../appliactions/components/Favicon";
+import Favicon from "../components/Favicon";
 
 class MyDocument extends Document {
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
