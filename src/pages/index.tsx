@@ -1,45 +1,44 @@
 import { GetServerSideProps } from "next";
-import React from "react"
-import prisma, { Post } from "../infrastructures/utils/prisma"
+import React from "react";
+import prisma, { Post } from "../infrastructures/utils/prisma";
 
-type Props = {
-  posts: Pick<Post, "id" | "title" | "content">[];
-}
+type PostProps = {
+  posts: Pick<Post, "id" | "title" | "content" | "createdAt">[];
+};
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const posts = await prisma.post.findMany({
+export const getServerSideProps: GetServerSideProps<PostProps> = async () => {
+  const allPosts = await prisma.post.findMany({
     select: {
       id: true,
       title: true,
       content: true,
+      createdAt: true,
     },
   });
 
+  // Date の createdAt を String に変換
+  const posts = JSON.parse(JSON.stringify(allPosts));
+
   return {
     props: {
-      posts
-    }
-  }
-}
+      posts: posts,
+    },
+  };
+};
 
-/**
- * 
- * @param {Props} props
- * @return {JSX.Element} 
- */
-export default function index(props: Props) {
+export default function index(props: PostProps) {
   return (
     <>
       <div>post count: {props.posts.length}</div>
       {props.posts.map((post) => {
         return (
           <div key={post.id}>
-            <p>{post.id}</p>
-            <h3>{post.title}</h3>
+            <p>{post.createdAt}</p>
+            <h2>{post.title}</h2>
             <p>{post.content}</p>
           </div>
-        )
+        );
       })}
     </>
-  )
+  );
 }
