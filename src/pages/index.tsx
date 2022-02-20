@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 import React from "react";
 import prisma from "../utils/prisma";
 import { Post } from "@prisma/client";
+import Header from "../components/Header";
 
 export type PostInfomation = {
   posts: Pick<Post, "id" | "title" | "content" | "createdAt">[];
@@ -31,6 +32,7 @@ export const getServerSideProps: GetServerSideProps<PostInfomation> = async () =
 export default function Home(props: PostInfomation) {
   return (
     <>
+     <Header /> 
       <div>post count: {props.posts.length}</div>
       {props.posts.map((post) => {
         return (
