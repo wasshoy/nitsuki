@@ -7,6 +7,7 @@ export type PostInfomation = {
   posts: Pick<Post, "id" | "title" | "content" | "createdAt">[];
 };
 
+// DB のデータの更新このアプリケーションのビルドとは独立しているため動的に取得する
 export const getServerSideProps: GetServerSideProps<PostInfomation> = async () => {
   const allPosts = await prisma.post.findMany({
     select: {
@@ -27,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<PostInfomation> = async () =
   };
 };
 
-export default function index(props: PostInfomation) {
+export default function Home(props: PostInfomation) {
   return (
     <>
       <div>post count: {props.posts.length}</div>
